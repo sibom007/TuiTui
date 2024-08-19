@@ -52,9 +52,33 @@ model User {
   hashPassword      String?
   emailVerified DateTime? @map("email_verified")
   image         String?
+  profile       Profile?
   accounts      Account[]
   sessions      Session[]
  
   @@map("users")
+}
+
+model Profile {
+  id        String  @id @default(cuid()) @map("_id")
+  userId    String   @map("user_id") @unique
+  bio       String?
+  age       Int?
+  address  String?
+  gender    gender?
+  Lookingfor Matching?
+  country   String?
+  Match     String[]
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum gender {
+  MAIL
+  FEMAIL
+}
+enum Matching {
+  MAIL
+  FEMAIL
 }
  
