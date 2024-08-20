@@ -51,7 +51,6 @@ model User {
   email         String?   @unique
   hashPassword      String?
   emailVerified DateTime? @map("email_verified")
-  image         String?
   profile       Profile?
   accounts      Account[]
   sessions      Session[]
@@ -63,11 +62,14 @@ model Profile {
   id        String  @id @default(cuid()) @map("_id")
   userId    String   @map("user_id") @unique
   bio       String?
+  backgroundcolour String?
+  image         String?
   age       Int?
   address  String?
   gender    gender?
   Lookingfor Matching?
   country   String?
+  LikedBy   String[]
   Match     String[]
 
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)

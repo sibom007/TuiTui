@@ -6,8 +6,8 @@ export const POST = async (request: Request) => {
   try {
     const body = await request.json();
 
-    const { email, firstName, lastName, password, age } = body;
-    if (!email || !firstName || !lastName || !password || !age) {
+    const { email, name, password } = body;
+    if (!email || !password) {
       return new NextResponse("Missing credentials", { status: 400 });
     }
 
@@ -25,11 +25,9 @@ export const POST = async (request: Request) => {
 
     const makeuser = await db.user.create({
       data: {
+        name,
         email,
-        firstName,
-        lastName,
-        hashpassword: hashedPassword,
-        age,
+        hashPassword: hashedPassword,
       },
     });
 

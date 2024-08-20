@@ -1,5 +1,6 @@
 import "next-auth";
 
+
 export type User = {
   id: string;
   firstname: string;
@@ -30,3 +31,36 @@ declare module "next-auth" {
     };
   }
 }
+
+export type IMeta = {
+  page: number;
+  limit: number;
+  total: number;
+};
+
+export type ResponseSuccessType = {
+  data: any;
+  meta?: IMeta;
+};
+
+export type IGenericErrorResponse = {
+  statusCode: number;
+  message: string;
+  errorMessages: IGenericErrorMessage[];
+};
+
+export type IGenericErrorMessage = {
+  path: string | number;
+  message: string;
+};
+
+export type TUser = {
+  id: string;
+  name: string;
+  photo: string;
+  email: string;
+  role: string;
+};
+
+export const Gender = ["MALE", "FEMALE"];
+

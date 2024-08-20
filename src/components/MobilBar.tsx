@@ -5,7 +5,7 @@ const MobilBar = () => {
     <div className=" md:hidden">
       <div className="bg-[#FF6666] p-2 flex  justify-around items-center">
         <div>
-          <p className=" col-span-1 text-center text-xl font-bold  text-yellow-50">
+          <p className=" font-damion col-span-1 text-center text-xl font-bold  text-yellow-50">
             TuiTui
           </p>
         </div>

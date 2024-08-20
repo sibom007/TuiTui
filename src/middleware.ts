@@ -4,9 +4,8 @@ import {
   DEFULT_REDIRECT_URL,
   publicRoutes,
 } from "@/Routes/routes";
-
-import { NextResponse, type NextRequest } from "next/server";
-import { isUserLoggedIn } from "./utils/UserVerify";
+import { isUserLoggedIn } from "@/utils/UserVerify";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(req: NextRequest) {
   const { nextUrl } = req;
@@ -32,5 +31,5 @@ export async function middleware(req: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ["/Lobby/:path*", "/authorization", "/"],
 };
