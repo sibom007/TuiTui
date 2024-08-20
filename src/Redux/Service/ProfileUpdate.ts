@@ -3,17 +3,16 @@ import { baseApi } from "./baseApi";
 
 const ProfileUpdateApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    GetDonnerList: build.query({
+    profileUpdate: build.mutation({
       query: (data) => {
         return {
-          url: "donor-list",
+          url: "/profile",
           method: "GET",
-          params: data,
+          body: data.updateInfo,
         };
       },
-      providesTags: [tagTypes.Donner],
     }),
   }),
 });
 
-export const { useGetDonnerListQuery } = ProfileUpdateApi;
+export const { useProfileUpdateMutation } = ProfileUpdateApi;

@@ -4,30 +4,22 @@ import { NextResponse } from "next/server";
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
-    const { id, bio, country, gender, Lookingfor, address, age } = body;
+    const { _id, backgroundcolour } = body;
 
-    if (!id || !bio || !country || !gender || !Lookingfor || !address || !age) {
+    if (!backgroundcolour) {
       return new NextResponse("Missing required fields", { status: 400 });
     }
 
     await db.profile.update({
       where: {
-        id: id,
+        id: _id,
       },
       data: {
-        bio,
-        country,
-        gender,
-        Lookingfor,
-        address,
-        age,
+        backgroundcolour,
       },
     });
 
-    return NextResponse.json(
-      { message: "Profile updated successfully" },
-      { status: 200 }
-    );
+    return NextResponse.json({ message: "Colour changed" }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: "Internal Server Error" },
