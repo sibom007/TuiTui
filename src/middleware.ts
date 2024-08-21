@@ -25,11 +25,11 @@ export async function middleware(req: NextRequest) {
     return null;
   }
   if (!isLoggedIn && !isPublicRoutes) {
-    return NextResponse.redirect(new URL("/authorization", nextUrl));
+    return NextResponse.redirect(new URL("/login", nextUrl));
   }
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/Lobby/:path*", "/authorization", "/"],
+  matcher: ["/Lobby/:path*", "/login", "/register", "/"],
 };

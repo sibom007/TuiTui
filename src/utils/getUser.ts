@@ -17,7 +17,6 @@ export const getUserByEmail = async (email: string) => {
       id: true,
       name: true,
       email: true,
-      image: true,
     },
   });
   return user;

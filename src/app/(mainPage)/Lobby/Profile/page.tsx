@@ -5,10 +5,37 @@ import CInput from "@/shared/CInput";
 import CForm from "@/shared/CFrom";
 import { FieldValues } from "react-hook-form";
 import CSelectField from "@/shared/CSelectField";
+import { useSession } from "next-auth/react";
+import axios from "axios";
 
 const ProfilePage = () => {
-  const handleUpdate = (data: FieldValues) => {
-    console.log(data);
+  const user = useSession();
+
+  const handleUpdate = async (data: FieldValues) => {
+    const updateInfo = {
+      id: user.data?.user?._id,
+      name: data.name,
+      gender: data.gender,
+      bio: data.bio,
+      Lookingfor: data.lookingfor,
+      address: data.address,
+      age: Number(data.age),
+      country: data.country,
+    };
+
+    try {
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/profile`,
+        updateInfo
+      );
+      console.log(res.data, "askdnak");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data);
+      } else {
+        console.error(error);
+      }
+    }
   };
 
   return (
@@ -85,7 +112,7 @@ const ProfilePage = () => {
               <CSelectField
                 className="bg-white outline-none font-damion py-2 px-3 w-[70vw] md:w-[30vw] flex-1 rounded-md text-gray-600"
                 name="gender"
-                items={["Male", "Female"]}
+                items={["MAIL", "FEMAIL"]}
                 required
               />
             </div>
@@ -97,8 +124,8 @@ const ProfilePage = () => {
               </label>
               <CSelectField
                 className="bg-white outline-none font-damion py-2 px-3 w-[70vw] md:w-[30vw] flex-1 rounded-md text-gray-600"
-                name="Lookingfor"
-                items={["Male", "Female"]}
+                name="lookingfor"
+                items={["MAIL", "FEMAIL"]}
                 required
               />
             </div>
@@ -140,7 +167,9 @@ const ProfilePage = () => {
               Be happy
             </p>
             <div className="flex justify-center pt-3 md:pt-2 ">
-              <button className="w-9/12 bg-orange-400 py-1 rounded-md text-white text-base">
+              <button
+                type="submit"
+                className="w-9/12 bg-orange-400 py-1 rounded-md text-white text-base">
                 View More
               </button>
             </div>

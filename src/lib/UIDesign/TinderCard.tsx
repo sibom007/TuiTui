@@ -2,8 +2,9 @@
 import { SetStateAction, useState } from "react";
 import TinderCard from "react-tinder-card";
 import "@/Css/card.css";
-import { db } from "@/data/test";
+
 import CardUi from "./CardUi";
+import { db } from "@/data/test";
 
 const TinderCards = () => {
   const [lastDirection, setLastDirection] = useState();

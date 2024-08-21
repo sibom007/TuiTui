@@ -8,8 +8,7 @@ const loginvalidation = z.object({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
-  firstName: z.string().min(3, "First name must be at least 3 characters long"),
-  lastName: z.string().min(3, "Last name must be at least 3 characters long"),
+  name: z.string().min(3, "First name must be at least 3 characters long"),
   age: z
     .number()
     .min(18, "You must be at least 18 years old to use this service")

@@ -8,8 +8,8 @@ import Github from "next-auth/providers/github";
 
 export const authOptions: AuthOptions = {
   pages: {
-    signIn: "/authorization",
-    error: "/authorization",
+    signIn: "/login",
+    error: "/login",
   },
   adapter: PrismaAdapter(db),
 

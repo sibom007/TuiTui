@@ -15,8 +15,7 @@ export type User = {
 export type variant = "LOGIN" | "REGISTER";
 
 export interface loginprops {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   password: string;
   image: string;
