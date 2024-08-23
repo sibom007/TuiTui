@@ -7,5 +7,6 @@ export const baseApi = createApi({
   baseQuery: axiosBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_BACKEND_API_URL}`,
   }),
+  tagTypes: ["Profile", "Image", "Colour"],
   endpoints: () => ({}),
 });

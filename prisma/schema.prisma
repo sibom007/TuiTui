@@ -72,15 +72,15 @@ model Profile {
   LikedBy   String[]
   Match     String[]
 
-  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum gender {
-  MAIL
-  FEMAIL
+  MAIE
+  FEMAIE
 }
 enum Matching {
-  MAIL
-  FEMAIL
+  MAIE
+  FEMAIE
 }
  

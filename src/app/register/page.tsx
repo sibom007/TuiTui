@@ -70,7 +70,7 @@ const RegisterPage = () => {
               or use your Email account.
             </p>
 
-            <CForm onSubmit={handleSubmit}>
+            <CForm resetAfterSubmit={true} onSubmit={handleSubmit}>
               <div className="mt-3 flex flex-col justify-center items-center">
                 <div className="grid grid-cols-1 md:grid-cols-2  gap-4 p-2">
                   <div className=" bg-gray-100 flex  p-2 rounded-lg w-full">

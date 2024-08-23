@@ -4,7 +4,7 @@ type Tprops = {
   label?: string;
   items: string[];
   className?: string;
-  required: boolean;
+  required?: boolean;
 };
 
 const CSelectField = ({ items, name, label, required, className }: Tprops) => {

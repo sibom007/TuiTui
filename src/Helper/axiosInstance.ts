@@ -21,12 +21,9 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   //@ts-ignore
   function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
-
     const responseObject: ResponseSuccessType = {
-      data: response?.data?.data,
-      meta: response?.data?.data?.meta,
+      data: response?.data,
+      status: response?.status,
     };
     return responseObject;
   },

@@ -23,7 +23,8 @@ export const POST = async (request: Request) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const makeuser = await db.user.create({
+  const result = await db.$transaction(async (TC) => {
+    const user = await db.user.create({
       data: {
         name,
         email,
@@ -31,10 +32,19 @@ export const POST = async (request: Request) => {
       },
     });
 
-    return NextResponse.json(
-      { message: "User registered successfully", makeuser },
-      { status: 201 }
-    );
+    const userProfile = await TC.profile.create({
+      data: {
+        userId: user.id,
+      },
+    });
+
+    return { user, userProfile };
+  });
+
+  return NextResponse.json(
+    { message: "User registered successfully", result },
+    { status: 201 }
+  );
   } catch (error) {
     return new NextResponse("Internal Error", { status: 400 });
   }

@@ -9,13 +9,21 @@ import {
 type TFormProps = {
   children: React.ReactNode;
   onSubmit: SubmitHandler<FieldValues>;
+  resetAfterSubmit: boolean;
 };
 
-const CForm = ({ children, onSubmit }: TFormProps) => {
+const CForm = ({
+  children,
+  onSubmit,
+  resetAfterSubmit = false,
+}: TFormProps) => {
   const methods = useForm();
 
   const submit: SubmitHandler<FieldValues> = (data: any) => {
     onSubmit(data);
+    if (resetAfterSubmit) {
+      methods.reset();
+    }
   };
   return (
     <FormProvider {...methods}>

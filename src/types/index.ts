@@ -40,6 +40,7 @@ export type IMeta = {
 export type ResponseSuccessType = {
   data: any;
   meta?: IMeta;
+  status: number | string;
 };
 
 export type IGenericErrorResponse = {

@@ -1,15 +1,17 @@
 "use client";
-import Image from "next/image";
-import moduleName from "../../../../../public/no-photo.png";
+
 import CInput from "@/shared/CInput";
 import CForm from "@/shared/CFrom";
 import { FieldValues } from "react-hook-form";
 import CSelectField from "@/shared/CSelectField";
 import { useSession } from "next-auth/react";
-import axios from "axios";
+import { useUpdateprofileMutation } from "@/Redux/api/profile";
+import toast from "react-hot-toast";
+import ProfileView from "@/components/ProfileView";
 
 const ProfilePage = () => {
   const user = useSession();
+  const [Updateprofile] = useUpdateprofileMutation();
 
   const handleUpdate = async (data: FieldValues) => {
     const updateInfo = {
@@ -22,26 +24,16 @@ const ProfilePage = () => {
       age: Number(data.age),
       country: data.country,
     };
-
-    try {
-      const res = await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/profile`,
-        updateInfo
-      );
-      console.log(res.data, "askdnak");
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error(error.response?.data);
-      } else {
-        console.error(error);
-      }
+    const res = await Updateprofile(updateInfo);
+    if (res?.data?.status === 200) {
+      toast.success(res?.data?.data.message, { position: "top-right" });
     }
   };
 
   return (
     <div className="md:flex justify-between gap-3 w-[70vw] min-h-[39vw] rounded-md ">
       <div className="flex w-[40vw]  rounded-t-md">
-        <CForm onSubmit={handleUpdate}>
+        <CForm resetAfterSubmit={true} onSubmit={handleUpdate}>
           <div className="flex flex-col items-center md:mx-10 my-9 gap-5">
             <div className="flex flex-col items-start border-b-2 border-gray-500 pb-10">
               <label
@@ -100,7 +92,6 @@ const ProfilePage = () => {
                   "Japan",
                   "Australia",
                 ]}
-                required
               />
             </div>
             <div className="flex flex-col items-start border-b-2 border-gray-500 pb-10">
@@ -112,8 +103,7 @@ const ProfilePage = () => {
               <CSelectField
                 className="bg-white outline-none font-damion py-2 px-3 w-[70vw] md:w-[30vw] flex-1 rounded-md text-gray-600"
                 name="gender"
-                items={["MAIL", "FEMAIL"]}
-                required
+                items={["MAIE", "FEMAIE"]}
               />
             </div>
             <div className="flex flex-col items-start border-b-2 border-gray-500 pb-10">
@@ -125,8 +115,7 @@ const ProfilePage = () => {
               <CSelectField
                 className="bg-white outline-none font-damion py-2 px-3 w-[70vw] md:w-[30vw] flex-1 rounded-md text-gray-600"
                 name="lookingfor"
-                items={["MAIL", "FEMAIL"]}
-                required
+                items={["MAIE", "FEMAIE"]}
               />
             </div>
             <div className="flex flex-col items-start  border-gray-500 pb-10">
@@ -147,35 +136,7 @@ const ProfilePage = () => {
           </div>
         </CForm>
       </div>
-      <div>
-        <p className="text-base text-gray-300 font-semibold">PREVIEW</p>
-        <div className="flex min-w-[29vw] min-h-[10vw] bg-orange-300 rounded-t-md">
-          <div className="flex flex-col items-center justify-end -mb-[4vw] md:-mb-[2vw] ml-[1vw] ">
-            <Image
-              src={moduleName}
-              className="w-[10vw] md:w-[6vw] rounded-full border-[6px] border-gray-800/50"
-              alt="profile"
-            />
-          </div>
-        </div>
-        <div className="bg-gray-900 min-h-44 rounded-b-md">
-          <div className="pt-10 pl-2 ">
-            <h1 className="text-base md:text-xl font-semibold text-white">
-              Sibom saha
-            </h1>
-            <p className=" text-sm md:text-base font-medium text-white pt-4 md:pt-8">
-              Be happy
-            </p>
-            <div className="flex justify-center pt-3 md:pt-2 ">
-              <button
-                type="submit"
-                className="w-9/12 bg-orange-400 py-1 rounded-md text-white text-base">
-                View More
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ProfileView id={user?.data?.user?._id} />
     </div>
   );
 };
