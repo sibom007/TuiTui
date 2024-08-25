@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import p from "../../../public/no-photo.png";
 
 const CardUi = ({
   item,
@@ -19,7 +20,7 @@ const CardUi = ({
     <div>
       <Card
         style={{
-          backgroundImage: `url(${item.image})`,
+          backgroundImage: `url(${item.image || p})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

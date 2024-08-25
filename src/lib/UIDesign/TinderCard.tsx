@@ -1,30 +1,53 @@
 "use client";
-import { SetStateAction, useState } from "react";
 import TinderCard from "react-tinder-card";
 import "@/Css/card.css";
-
 import CardUi from "./CardUi";
-import { db } from "@/data/test";
-import { useAllProfileQuery } from "@/Redux/api/SwipeProfile";
+import {
+  useAllProfileQuery,
+  useSwipeLeftMutation,
+  useSwipeRightMutation,
+} from "@/Redux/api/SwipeProfile";
 import { useUserId } from "@/hooks/GetId";
-import { User } from "@prisma/client";
 import { IUser } from "@/types";
+import toast from "react-hot-toast";
 
 const TinderCards = () => {
   const id = useUserId();
   const users = useAllProfileQuery({ id });
-  const swiped = ({
+  const [SwipeRight] = useSwipeRightMutation();
+  const [SwipeLeft] = useSwipeLeftMutation();
+
+  const swiped = async ({
     direction,
-    nameToDelete,
+    IdToDelete,
   }: {
     direction: string;
-    nameToDelete: string;
+    IdToDelete: string;
   }) => {
     if (direction === "right") {
-      console.log("right");
+      const Info = {
+        id: id,
+        likedUserId: IdToDelete,
+      };
+      const res = await SwipeRight(Info);
+      if (res.data.status === 200) {
+        toast.success(res?.data?.data, {
+          position: "top-right",
+        });
+      }
     }
+
     if (direction === "left") {
-      console.log("left");
+      const Info = {
+        id: id,
+        DisLikeUserId: IdToDelete,
+      };
+      const res = await SwipeLeft(Info);
+      if (res.data.status === 200) {
+        toast.success(res?.data?.data, {
+          position: "top-right",
+        });
+      }
     }
   };
 
@@ -34,11 +57,11 @@ const TinderCards = () => {
   return (
     <div>
       <div className="cardContainer">
-        {users?.data?.data.map((item: IUser) => (
+        {users?.data?.data?.map((item: IUser) => (
           <TinderCard
             className="swipe"
             key={item.name}
-            onSwipe={(dir) => swiped({ direction: dir, nameToDelete: item.id })}
+            onSwipe={(dir) => swiped({ direction: dir, IdToDelete: item.id })}
             onCardLeftScreen={() => outOfFrame(item.id)}>
             <div>
               <CardUi

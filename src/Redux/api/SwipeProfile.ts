@@ -13,7 +13,41 @@ const SwipeProfileApi = baseApi.injectEndpoints({
         };
       },
     }),
+    SwipeRight: build.mutation({
+      query: (args) => {
+        return {
+          url: "swipeRight",
+          method: "PATCH",
+          data: args,
+        };
+      },
+    }),
+    SwipeLeft: build.mutation({
+      query: (args) => {
+        return {
+          url: "swipeLeft",
+          method: "PATCH",
+          data: args,
+        };
+      },
+    }),
+    LikedProple: build.query({
+      query: (args) => {
+        return {
+          url: "LikedProple",
+          method: "GET",
+          params: {
+            id: args.id,
+          },
+        };
+      },
+    }),
   }),
 });
 
-export const { useAllProfileQuery } = SwipeProfileApi;
+export const {
+  useAllProfileQuery,
+  useSwipeRightMutation,
+  useSwipeLeftMutation,
+  useLikedPropleQuery,
+} = SwipeProfileApi;
