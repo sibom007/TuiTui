@@ -50,6 +50,7 @@ model User {
   name          String?
   email         String?   @unique
   hashPassword      String?
+  number        String?
   emailVerified DateTime? @map("email_verified")
   profile       Profile?
   accounts      Account[]
@@ -69,6 +70,8 @@ model Profile {
   gender    gender?
   Lookingfor Matching?
   country   String?
+  YouLike String[]
+  Reject String[]
   LikedBy   String[]
   Match     String[]
 

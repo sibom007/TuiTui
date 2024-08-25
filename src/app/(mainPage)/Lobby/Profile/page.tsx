@@ -8,14 +8,14 @@ import { useSession } from "next-auth/react";
 import { useUpdateprofileMutation } from "@/Redux/api/profile";
 import toast from "react-hot-toast";
 import ProfileView from "@/components/ProfileView";
+import { useUserId } from "@/hooks/GetId";
 
 const ProfilePage = () => {
-  const user = useSession();
+  const id = useUserId();
   const [Updateprofile] = useUpdateprofileMutation();
-
   const handleUpdate = async (data: FieldValues) => {
     const updateInfo = {
-      id: user.data?.user?._id,
+      id: id,
       name: data.name,
       gender: data.gender,
       bio: data.bio,
@@ -130,13 +130,13 @@ const ProfilePage = () => {
                 name="address"
               />
             </div>
-            <div className="text-xl font-damion outline outline-[#ff6666] text-white px-16 duration-500 py-2 hover:bg-[#ff6666] rounded-lg">
-              <button>Update</button>
+            <div className="text-xl  font-damion outline outline-[#ff6666] text-white px-16 duration-500 py-2 hover:bg-[#ff6666] rounded-lg flex-1">
+              <button className="flex-1">Update</button>
             </div>
           </div>
         </CForm>
       </div>
-      <ProfileView id={user?.data?.user?._id} />
+      <ProfileView id={id} />
     </div>
   );
 };

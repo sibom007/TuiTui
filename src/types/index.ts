@@ -1,17 +1,5 @@
 import "next-auth";
 
-
-export type User = {
-  id: string;
-  firstname: string;
-  lastName: string;
-  email: string;
-  password: string;
-  Like: string[];
-  createdAt: Date;
-  updatedAt: Date;
-};
-
 export type variant = "LOGIN" | "REGISTER";
 
 export interface loginprops {
@@ -54,13 +42,42 @@ export type IGenericErrorMessage = {
   message: string;
 };
 
-export type TUser = {
-  id: string;
-  name: string;
-  photo: string;
-  email: string;
-  role: string;
-};
+enum Gender {
+  MAIE = "MAIE",
+  FEMAIE = "FEMAIE",
+}
 
-export const Gender = ["MALE", "FEMALE"];
+enum Matching {
+  MAIE = "MAIE",
+  FEMAIE = "FEMAIE",
+}
+
+export interface IUser {
+  id: string;
+  name?: string | null;
+  email?: string | null;
+  hashPassword?: string | null;
+  number?: string | null;
+  emailVerified?: Date | null;
+  profile?: Profile | null;
+}
+
+interface Profile {
+  id: string;
+  userId: string;
+  bio?: string | null;
+  backgroundcolour?: string | null;
+  image?: string | null;
+  age?: number | null;
+  address?: string | null;
+  gender?: Gender | null;
+  Lookingfor?: Matching | null;
+  country?: string | null;
+  YouLike: string[];
+  LikedBy: string[];
+  Match: string[];
+  user: IUser;
+}
+
+
 

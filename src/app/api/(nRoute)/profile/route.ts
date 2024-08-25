@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
-    const { id, bio, country, gender, Lookingfor, address, age, name } = body;
+    const { id, bio, country, gender, Lookingfor, address, age, name, number } =
+      body;
 
     const user = await db.user.findUnique({
       where: {
@@ -16,31 +17,32 @@ export async function PUT(req: Request) {
       return new NextResponse("User not found", { status: 404 });
     }
 
-    if (name) {
+    const updateData: any = {};
+    const profileUpdateData: any = {};
+
+    if (name) updateData.name = name;
+    if (number) updateData.number = number;
+
+    if (bio) profileUpdateData.bio = bio;
+    if (country) profileUpdateData.country = country;
+    if (gender) profileUpdateData.gender = gender;
+    if (Lookingfor) profileUpdateData.Lookingfor = Lookingfor;
+    if (address) profileUpdateData.address = address;
+    if (age) profileUpdateData.age = age;
+
+    if (Object.keys(updateData).length > 0) {
       await db.user.update({
-        where: {
-          id: id,
-        },
-        data: {
-          name: name,
-        },
+        where: { id: id },
+        data: updateData,
       });
     }
 
-    await db.profile.updateMany({
-      where: {
-        userId: id,
-      },
-      data: {
-        bio,
-        country,
-        gender,
-        Lookingfor,
-        address,
-        age,
-      },
-    });
-
+    if (Object.keys(profileUpdateData).length > 0) {
+      await db.profile.update({
+        where: { userId: id },
+        data: profileUpdateData,
+      });
+    }
     return NextResponse.json(
       { message: "Profile updated successfully" },
       { status: 200 }
@@ -67,6 +69,7 @@ export const GET = async (req: Request) => {
         id: true,
         name: true,
         email: true,
+        number: true,
         profile: true,
       },
     });

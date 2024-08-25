@@ -8,7 +8,7 @@ const ProfileApi = baseApi.injectEndpoints({
           url: "profile",
           method: "GET",
           params: {
-            id: args?.id,
+            id: args.id,
           },
         };
       },

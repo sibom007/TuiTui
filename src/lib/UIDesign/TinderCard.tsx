@@ -5,10 +5,14 @@ import "@/Css/card.css";
 
 import CardUi from "./CardUi";
 import { db } from "@/data/test";
+import { useAllProfileQuery } from "@/Redux/api/SwipeProfile";
+import { useUserId } from "@/hooks/GetId";
+import { User } from "@prisma/client";
+import { IUser } from "@/types";
 
 const TinderCards = () => {
-  const [lastDirection, setLastDirection] = useState();
-
+  const id = useUserId();
+  const users = useAllProfileQuery({ id });
   const swiped = ({
     direction,
     nameToDelete,
@@ -16,31 +20,36 @@ const TinderCards = () => {
     direction: string;
     nameToDelete: string;
   }) => {
-    console.log("removing: " + nameToDelete);
-
-    setLastDirection(direction as unknown as SetStateAction<undefined>);
+    if (direction === "right") {
+      console.log("right");
+    }
+    if (direction === "left") {
+      console.log("left");
+    }
   };
 
   const outOfFrame = (name: string) => {
-    console.log(name + " left the screen!");
+    // console.log(name + " left the screen!");
   };
   return (
     <div>
       <div className="cardContainer">
-        {Array.isArray(db) &&
-          db.map((item) => (
-            <TinderCard
-              className="swipe"
-              key={item.title}
-              onSwipe={(dir) =>
-                swiped({ direction: dir, nameToDelete: item.title })
-              }
-              onCardLeftScreen={() => outOfFrame(item.title)}>
-              <div>
-                <CardUi item={item} />
-              </div>
-            </TinderCard>
-          ))}
+        {users?.data?.data.map((item: IUser) => (
+          <TinderCard
+            className="swipe"
+            key={item.name}
+            onSwipe={(dir) => swiped({ direction: dir, nameToDelete: item.id })}
+            onCardLeftScreen={() => outOfFrame(item.id)}>
+            <div>
+              <CardUi
+                item={{
+                  name: item.name || "",
+                  image: item.profile?.image || "",
+                }}
+              />
+            </div>
+          </TinderCard>
+        ))}
       </div>
     </div>
   );

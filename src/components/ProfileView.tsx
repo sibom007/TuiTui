@@ -10,20 +10,22 @@ import { CldUploadButton } from "next-cloudinary";
 import toast from "react-hot-toast";
 import Diglog from "@/lib/UIDesign/Diglog";
 import { useEffect, useState } from "react";
+import { useGetUser } from "@/hooks/GetUserByClient";
+import Loader from "@/lib/Loader/Loader";
 
 const ProfileView = ({ id }: { id: string | undefined }) => {
   const [bg, setbg] = useState("");
   const [UpdateImage] = useUpdateImageMutation();
-  const { data } = useGetprofileByIdQuery({ id });
-  const item = data?.data;
+  const res = useGetUser();
+  const item = res.data?.data;
 
   const UploadImg = async (result: any) => {
     const Info = {
       id,
       image: result?.info?.secure_url,
     };
-    const res = await UpdateImage(Info);
-    toast.success(res?.data?.data?.message, { position: "top-right" });
+    const UpdateRes = await UpdateImage(Info);
+    toast.success(UpdateRes?.data?.data?.message, { position: "top-right" });
   };
   useEffect(() => {
     setbg(item?.profile.backgroundcolour);
@@ -31,9 +33,12 @@ const ProfileView = ({ id }: { id: string | undefined }) => {
 
   return (
     <div>
+      <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+        {res.isLoading && res.isFetching ? <Loader /> : ""}
+      </div>
       <p className="text-base text-gray-300 font-semibold">PREVIEW</p>
       <div
-        style={{ backgroundColor: bg }}
+        style={{ backgroundColor: bg || "#ff6666" }}
         className={`flex min-w-[29vw] min-h-[10vw] rounded-t-md relative`}>
         <div className="absolute -right-2 -top-3 bg-gray-700/60 text-white p-1 rounded-full">
           <Diglog id={id} />
@@ -42,7 +47,7 @@ const ProfileView = ({ id }: { id: string | undefined }) => {
           <div className="flex items-center justify-center relative">
             <Image
               src={item?.profile.image || moduleName}
-              className="w-[10vw] md:w-[6vw] h-[6vw]  rounded-full border-[6px] border-gray-800/50"
+              className="w-[10vw] md:w-[6vw] h-[6vw] bg-cover  rounded-full border-[6px] border-gray-800/50"
               height={200}
               width={200}
               alt="profile"
